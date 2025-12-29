@@ -1,0 +1,240 @@
+/**************************************************************************************
+SCRIPT: bronze.load_bronze - Data Loading Stored Procedure
+PURPOSE: Load raw data from CSV files into bronze layer tables
+DESCRIPTION: 
+    - This stored procedure performs bulk data loading from source CSV files
+    - Handles both CRM and ERP system data sources
+    - Includes timing metrics for performance monitoring
+    - Implements error handling and logging
+    - Uses TRUNCATE and BULK INSERT for idempotent operations
+ARCHITECTURE: Bronze Layer (Raw Data Ingestion)
+AUTHOR: [Your Name/Team]
+DATE: [Current Date]
+VERSION: 1.0
+PARAMETERS: None
+RETURNS: Void
+DEPENDENCIES:
+    - Tables must exist in bronze schema (run table creation script first)
+    - CSV files must be accessible at specified file paths
+    - SQL Server service account must have read permissions to file locations
+NOTES:
+    - Path contains spaces ("Black Note") - requires double quotes around file path
+    - Date columns in crm_sls_details are stored as INT (YYYYMMDD format)
+    - Consider adding ROWTERMINATOR parameter for cross-platform compatibility
+**************************************************************************************/
+
+CREATE OR ALTER PROCEDURE bronze.load_bronze 
+AS
+BEGIN
+    -- =============================================================================
+    -- DECLARE TIMING VARIABLES
+    -- Purpose: Track performance metrics for each load operation
+    -- =============================================================================
+    DECLARE @start_time DATETIME,
+            @end_time DATETIME,
+            @batch_start_time DATETIME, 
+            @batch_end_time DATETIME;
+
+    BEGIN TRY 
+        -- =============================================================================
+        -- INITIALIZE BATCH TIMING
+        -- Purpose: Record overall batch start time for total duration calculation
+        -- =============================================================================
+        SET @batch_start_time = GETDATE();
+        
+        -- =============================================================================
+        -- BATCH START MESSAGING
+        -- Purpose: Provide visual separation and logging for batch start
+        -- =============================================================================
+        PRINT ' _____________________________'
+        PRINT '  Loading the bronze layer'
+        PRINT ' _____________________________'
+        PRINT ''
+        PRINT ' _____________________________'
+        PRINT '  Loading the CRM Tables'
+        PRINT ' _____________________________'
+
+        -- =============================================================================
+        -- LOAD CRM CUSTOMER INFORMATION TABLE
+        -- Source: CRM system customer master data
+        -- File: cust_info.csv
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.crm_cust_info;
+
+        PRINT '  Inserting data into Table'
+        -- NOTE: File path contains spaces - requires double quotes
+        BULK INSERT bronze.crm_cust_info
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_crm\cust_info.csv"'
+        WITH (
+            FIRSTROW = 2,               -- Skip header row
+            FIELDTERMINATOR = ',',      -- CSV delimiter
+            TABLOCK                     -- Minimize locking overhead
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+
+        -- =============================================================================
+        -- LOAD CRM PRODUCT INFORMATION TABLE
+        -- Source: CRM system product catalog
+        -- File: prd_info.csv
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.crm_prd_info;
+
+        PRINT '  Inserting data into Table'
+        BULK INSERT bronze.crm_prd_info
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_crm\prd_info.csv"'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+
+        -- =============================================================================
+        -- LOAD CRM SALES DETAILS TABLE
+        -- Source: CRM system sales transactions
+        -- File: sales_details.csv
+        -- IMPORTANT: Date fields are stored as INT (YYYYMMDD format)
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.crm_sls_details;
+
+        PRINT '  Inserting data into Table'
+        BULK INSERT bronze.crm_sls_details
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_crm\sales_details.csv"'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+        
+        -- =============================================================================
+        -- TRANSITION TO ERP DATA LOADING
+        -- Purpose: Visual separation between CRM and ERP data loads
+        -- =============================================================================
+        PRINT ' _____________________________'
+        PRINT '   Loading the ERP Tables'
+        PRINT ' _____________________________'
+        PRINT ''
+
+        -- =============================================================================
+        -- LOAD ERP CUSTOMER INFORMATION TABLE
+        -- Source: ERP system customer master data (different structure than CRM)
+        -- File: CUST_AZ12.csv
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.erp_cust_info;
+
+        PRINT '  Inserting data into Table'
+        BULK INSERT bronze.erp_cust_info
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv"'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+
+        -- =============================================================================
+        -- LOAD ERP CUSTOMER LOCATION TABLE
+        -- Source: ERP system customer geographic data
+        -- File: LOC_A101.csv
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.erp_cust_loc;
+        
+        PRINT '  Inserting data into Table'
+        BULK INSERT bronze.erp_cust_loc
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv"'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+
+        -- =============================================================================
+        -- LOAD ERP PRODUCT CATEGORY TABLE
+        -- Source: ERP system product hierarchy/categorization
+        -- File: PX_CAT_G1V2.csv
+        -- =============================================================================
+        SET @start_time = GETDATE();
+        PRINT '  Truncating the Table if it already exists'
+        TRUNCATE TABLE bronze.erp_prd_cat;
+        
+        PRINT '  Inserting data into Table'
+        BULK INSERT bronze.erp_prd_cat
+        FROM '"C:\Users\Black Note\Downloads\SQL\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv"'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+        
+        SET @end_time = GETDATE();
+        PRINT '  Duration to complete loading this table = ' + 
+              CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' Seconds';
+        PRINT ''
+
+        -- =============================================================================
+        -- BATCH COMPLETION SUMMARY
+        -- Purpose: Display total execution time for the entire batch
+        -- NOTE: Fixed timing variable reference (@batch_start_time instead of @start_time)
+        -- =============================================================================
+        SET @batch_end_time = GETDATE();
+        PRINT '+++++++++++++++++++++++++++++++++++++++++++++++++'
+        PRINT 'Duration To Complete the Whole Batch' 
+        PRINT '  - Total Time taken to complete the Batch is = ' + 
+              CAST(DATEDIFF(SECOND, @batch_start_time, @batch_end_time) AS NVARCHAR) + ' Seconds'
+        PRINT '+++++++++++++++++++++++++++++++++++++++++++++++++'
+        PRINT ''
+
+    END TRY
+    BEGIN CATCH 
+        -- =============================================================================
+        -- ERROR HANDLING SECTION
+        -- Purpose: Catch and log any errors during the loading process
+        -- =============================================================================
+        PRINT '+++++++++++++++++++++++++++++++++++++++++++++++++'
+        PRINT 'Error Occurred During Loading'
+        PRINT 'Error Message: ' + ERROR_MESSAGE();
+        PRINT 'Error Number: ' + CAST(ERROR_NUMBER() AS NVARCHAR);
+        PRINT 'Error State: ' + CAST(ERROR_STATE() AS NVARCHAR);
+        PRINT '+++++++++++++++++++++++++++++++++++++++++++++++++'
+        
+        -- Optional: Re-throw error to calling application
+        -- THROW;
+    END CATCH
+END
+GO
+
+/**************************************************************************************
+EXECUTION EXAMPLE:
+    EXEC bronze.load_bronze;
