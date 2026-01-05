@@ -2,9 +2,9 @@
 Building a full functional data warehouse project demonstrates a data warehouse project for actionable insight and analytical solution,  using SQL from building a data warehouse to generating actionable insight that includes ETL Processing, Data Modeling, and Analytic Metrics
 
 
-Overview
+## Overview
 
-* This project involves:
+## This project involves:
 
 . Data Architecture: Designing a modern data warehouse  using a modaling architecture, Bronze, Silver, Gold Layers
 . ETL Processing: Extracting, Transforming, and Loading data from source to warehouse
@@ -12,7 +12,9 @@ Overview
 . Analytic and Reporting: Create SQL-based reports and dashboards for actionable insights
 
 
-* This Repository is an excellent resource for anyone who wants to showcase expertise in:
+
+
+### This Repository is an excellent resource for anyone who wants to showcase expertise in:
 
 . SQL-Development
 . Data Architecture 
@@ -22,7 +24,9 @@ Overview
 . Data Analytics 
 
 
--> Important Tools 
+
+
+### Important Tools 
 
 . SQL Server                       
 . SQL Server Management Studio     
@@ -30,27 +34,38 @@ Overview
 . Notion                           
 
 
-* Project Requirements
+
+
+## Project Requirements
 
  Building Data Warehouse (Data Engineering)
 
-  Objectives
+### Objectives
   
 Develop a Modern Data Warehouse Using SQL to consolidate sales data, enabling
 analytical reporting and informed decision-making.
 
 
-  Specification
+
+#### Specification
 
   . Data Source: Import data from two different sources (CRM and ERP) provided as CSV file
-  . Data Quality: Clean, resolve, and  transform data quality issues before analytics 
+  
+  . Data Quality: Clean, resolve, and  transform data quality issues before analytics
+  
   . Integration: Combine both sources into a single user-friendly data model designed for analytics
+  
   . Scopr: Focus on the latest dataset only; historization of data is or required 
+  
   . Documentation: Provide clear documentation of the data model to support both stakeholders and the analytics team
 
 
+
+
   
-Data Architeture 
+## Data Architeture
+
+
 
 
 
@@ -58,14 +73,19 @@ Data Architeture
 
 
 
-. Bronze Layer: Extract data from the source in row form. Data is ingested in CSV format into the SQL Database
-. Silver Layer: This layer includes data cleaning, transforming, standardization, and normalization to prepare data 
+
+. **Bronze Layer:** Extract data from the source in row form. Data is ingested in CSV format into the SQL Database
+
+. **Silver Layer:** This layer includes data cleaning, transforming, standardization, and normalization to prepare data 
 for analytics 
-. Gold Layer: It contains a business-ready data model in a star schema required for analytics and reporting 
+
+. **Gold Layer:** It contains a business-ready data model in a star schema required for analytics and reporting 
 
 
 
-Repository Structure 
+
+
+## Repository Structure 
 
 -------- SQL-DatawarehuseProject
 
@@ -91,15 +111,29 @@ Repository Structure
             |--------.gitignore                                      # Files and directories to be ignored by Git
 
 
- Licencing
+
+## Licencing
  This Project is licensed under the MIT license. You are free to use, modify, and share it with people
 
 
 
- About Me 
+## About Me
  Hey, I'm Deneke Zewdu, A Data Manager/Analyst/Web Developer, generally a passionate IT professional on a mission to make a difference
- using data and all the attributes it brings. I enjoy uncovering the patterns and insights using data, and I'm enthusiastic about 
- sharing my knowledge about the potential of data.
+ using data and all the attributes it brings. I enjoy uncovering patterns and insights using data, and I'm enthusiastic about 
+ sharing my knowledge about the potential of technology.
+
+
+
+
+ ## Let's get in touch
+
+ 
+ Github:  (https://github.com/danblacknote/SQL-Data-Warehouse-Project/edit/main/README.md)
+ 
+ LinkedIn: (linkedin.com/in/deneke-zewdenhe-06a208208)
+ 
+ Email:    (danblacknote111@gmail.com)
+ 
             
 
 
