@@ -62,15 +62,39 @@ for analytics
 Repository Structure 
 
 -------- SQL-DatawarehuseProject
-            -------datasets/        #Raw Dataset 
-            |-------docs             # All the documents involving  this project
-            |          -----
-            |
-            |
-            |
+
+            -------datasets/                                          #Raw Dataset 
+            |-------docs                                              # All the documents involving  this project
+            |        |----- Data Flow Diagram. gpeg                   # Data flow diagram that shows how the data flows from its source to the warehouse 
+            |        |----- Data Mart (Star Schema).gpeg              # Data Mart (Star Schema) diagram that represents data modaling between tables 
+            |        |----- DWH Architecture Diagram. gpeg            # DWH Architecture diagram that represents the  whole architecture of the project  
+            |        |----- Relationship Schema. gpeg                 # Relationship Diagram that shows the relationship of tables from our different sources
+            |        |----- Data Cataloge.md                          # description of the column at the dimension and fact table of gold layers 
+            
                        
-            |-------scripts
-            |--------tests
+            |-------scripts                                          # All SQL scripts used to extract, transform, and load data                                   
+            |         |--- Bronze/                                   # SQL queries to extract and load data to the Bronze layer
+            |         |--- Silver/                                   # SQL scripts used to clean and transform, and load data to the silver layer
+            |         |--- Gold/                                     # SQL scripts used for analytical modeling
+            |
+            |--------tests/                                          #Test scripts used to ocheck the quality of the dat
+            |
+            |
+            |
+            |--------Readme.md                                       # Project Overview and instruction
+            |--------.gitignore                                      # Files and directories to be ignored by Git
+
+
+ Licencing
+ This Project is licensed under the MIT license. You are free to use, modify, and share it with people
+
+
+
+ About Me 
+ Hey, I'm Deneke Zewdu, A Data Manager/Analyst/Web Developer, generally a passionate IT professional on a mission to make a difference
+ using data and all the attributes it brings. I enjoy uncovering the patterns and insights using data, and I'm enthusiastic about 
+ sharing my knowledge about the potential of data.
+            
 
 
 
