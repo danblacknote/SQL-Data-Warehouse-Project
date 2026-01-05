@@ -53,7 +53,9 @@ analytical reporting and informed decision-making.
 Data Architeture 
 
 
+
 ![image alt](https://github.com/danblacknote/SQL-Data-Warehouse-Project/blob/14d7488ab5af5cc29aea21db97bac4b3fc332ec5/docs/DWH%20Level%20of%20Architeture%20Project%20%20Diagram.jpg)
+
 
 
 . Bronze Layer: Extract data from the source in row form. Data is ingested in CSV format into the SQL Database
