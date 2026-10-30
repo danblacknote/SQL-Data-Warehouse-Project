@@ -18,7 +18,7 @@ Analytics and Reporting: Creating SQL-based reports and dashboards for actionabl
 
 
 
-# 🌟 This Repository is an excellent resource for anyone who wants to showcase expertise in:
+  # 🌟 This Repository is an excellent resource for anyone who wants to showcase expertise in:
 
 [x] SQL Development
 [x] Data Architecture
@@ -27,7 +27,7 @@ Analytics and Reporting: Creating SQL-based reports and dashboards for actionabl
 [x] Data Modeling
 [x] Data Analytics
 
-# 🛠️ Important Tools
+  # 🛠️ Important Tools
 
  Tool 	 Purpose 
  SQL Server 	 Database Engine 
@@ -35,13 +35,13 @@ Analytics and Reporting: Creating SQL-based reports and dashboards for actionabl
  DrawIO 	 Diagramming 
  Notion 	 Documentation 
 
- 🎯 Project Requirements
+  🎯 Project Requirements
 Building a Data Warehouse (Data Engineering)
 
 # Objectives
 > Develop a Modern Data Warehouse Using SQL to consolidate sales data, enabling analytical reporting and informed decision-making.
 
-# 📋 Specification
+   # 📋 Specification
 
    Data Source: Import data from two different sources (CRM and ERP) provided as CSV files.
    Data Quality: Clean, resolve, and transform data quality issues before analytics.
@@ -51,6 +51,7 @@ Building a Data Warehouse (Data Engineering)
 
 
  🏛️ Data Architecture
+
  
 ![DWH Architecture Diagram](https://github.com/danblacknote/SQL-Data-Warehouse-Project/blob/95bbb7c6d9ddb70733ff18981b67f53ed981517d/docs/DWH%20Level%20of%20Architeture%20Project%20Diagram%20updated.png)
 
@@ -59,6 +60,7 @@ Building a Data Warehouse (Data Engineering)
 🥇 Gold Layer: It contains a business-ready data model in a star schema required for analytics and reporting.
 
 
+ 
  📂 Repository Structure
  
 ```text
