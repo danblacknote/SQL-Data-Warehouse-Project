@@ -70,8 +70,10 @@ Building Data Warehouse (Data Engineering)
 ```text
 SQL-DatawarehuseProject
 │
-├── 📁 datasets/                   Raw Dataset
-│
+├── 📁 datasets/
+|    ├── source_crm/      Raw Dataset           
+│    ├── source_erp/                      
+|   
 ├── 📁 docs/                       All the documents involving this project
 │   ├── 🖼️ Data Flow Diagram.jpeg
 │   ├── 🖼️ Data Mart (Star Schema).jpeg
